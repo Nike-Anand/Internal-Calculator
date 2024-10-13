@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal Marks Calculator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            font-size: 2rem;
+            animation: textPop 1s ease-in-out;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+        }
+
+        .container input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 80%;
+            border: none;
+            border-radius: 5px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-size: 1rem;
+            transition: background 0.3s ease, transform 0.3s ease;
+            -moz-appearance: textfield;
+        }
+
+        .container input::placeholder {
+            color: #ffffff;
+            opacity: 0.7;
+        }
+
+        .container input:focus {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+            outline: none;
+        }
+
+        .container input[type="number"]::-webkit-outer-spin-button,
+        .container input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .container button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #ff7f50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            width: 50%;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .container button:hover {
+            background-color: #ff6347;
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #ffffff;
+            min-height: 24px;
+            overflow: hidden;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            text-align: center;
+            width: 100%;
+            color: #ffffff;
+            font-size: 0.9em;
+            animation: fadeInUp 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes textPop {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes loaderAnim {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .loader {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+        .loader div {
+            width: 10px;
+            height: 10px;
+            margin: 3px;
+            background-color: #ff6b6b;
+            border-radius: 50%;
+            animation: loaderAnim 0.6s infinite;
+        }
+
+        .loader div:nth-child(2) {
+            background-color: #6bc6ff;
+            animation-delay: 0.2s;
+        }
+
+        .loader div:nth-child(3) {
+            background-color: #ff6bff;
+            animation-delay: 0.4s;
+        }
+
+        @media (max-width: 600px) {
+            .container input, .container button {
+                width: 90%;
+            }
+        }
+    </style>
+
+<body>
+    <div class="container">
+        <h1>Internal Marks Calculator</h1>
+        <input type="number" id="Fat1" placeholder="Enter Fat1 Marks" min="0" max="50">
+        <input type="number" id="Fat2" placeholder="Enter Fat2 Marks" min="0" max="50">
+        <input type="number" id="Fat3" placeholder="Enter Fat3 Marks" min="0" max="50">
+        <input type="number" id="assignment1" placeholder="Enter Assignment 1 Marks" min="0" max="50">
+        <input type="number" id="assignment2" placeholder="Enter Assignment 2 Marks" min="0" max="50">
+        <input type="number" id="assignment3" placeholder="Enter Assignment 3 Marks" min="0" max="50">
+        <button onclick="calculateInternalMarks()">Show Result</button>
+        <div class="loader" id="loader">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+    <div class="footer">
+        <p>made by cse</p>
+    </div>
+    <script>
+        function calculateInternalMarks() {
+            var loader = document.getElementById('loader');
+            loader.style.display = 'flex';
+
+            setTimeout(function () {
+                var Fat1 = parseFloat(document.getElementById('Fat1').value);
+                var Fat2 = parseFloat(document.getElementById('Fat2').value);
+                var Fat3 = parseFloat(document.getElementById('Fat3').value);
+                var assignment1 = parseFloat(document.getElementById('assignment1').value);
+                var assignment2 = parseFloat(document.getElementById('assignment2').value);
+                var assignment3 = parseFloat(document.getElementById('assignment3').value);
+
+                if (isNaN(Fat1) || isNaN(Fat2) || isNaN(Fat3) || isNaN(assignment1) || isNaN(assignment2) || isNaN(assignment3)) {
+                    alert("Please enter valid numbers for all marks.");
+                    loader.style.display = 'none';
+                    return;
+                }
+
+                if (Fat1 < 0 || Fat1 > 50 || Fat2 < 0 || Fat2 > 50 || Fat3 < 0 || Fat3 > 50 || assignment1 < 0 || assignment1 > 50 || assignment2 < 0 || assignment2 > 50 || assignment3 < 0 || assignment3 > 50) {
+                    alert("Marks should be between 0 and 50.");
+                    loader.style.display = 'none';
+                    return;
+                }
+
+                var FatAverage = (Fat1 + Fat2 + Fat3) / 3;
+                var assignmentAverage = (assignment1 + assignment2 + assignment3) / 3;
+                var internalMarks = (0.7 * FatAverage + 0.3 * assignmentAverage) * 0.8;
+                var resultText = "👊 Your internal marks is: " + internalMarks.toFixed(2);
+
+                document.getElementById('result').textContent = resultText;
+                loader.style.display = 'none';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

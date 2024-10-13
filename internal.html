@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal Marks Calculator</title>
+    <style>
+        h1 {
+            color: #0a0a0a;
+            text-shadow: 
+                -1px -1px 0 #01ff4d,  
+                1px -1px 0 #00ff00,
+                -1px 1px 0 #00ff00,
+                1px 1px 0 #00ff0d;
+        }
+ 
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://i.ibb.co/8xM4YQ8/image1.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            background-color: rgb(0, 0, 0);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgb(0, 255, 64);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        .container input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 80%;
+            box-sizing: border-box;
+        }
+        .container button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            width: 50%;
+        }
+        .container button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #ffffff;
+        }
+        @media (max-width: 600px) {
+            .container input, .container button {
+                width: 90%;
+            }
+        }
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            text-align: center;
+            width: 100%;
+            color: #00fff2;
+            text-shadow: 
+                -1px -1px 0 #000,  
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Internal Marks Calculator</h1>
+        <input type="number" id="Fat1" placeholder="Enter Fat1 Marks">
+        <input type="number" id="Fat2" placeholder="Enter Fat2 Marks">
+        <input type="number" id="Fat3" placeholder="Enter Fat3 Marks">
+        <input type="number" id="assignment1" placeholder="Enter Assignment 1 Marks">
+        <input type="number" id="assignment2" placeholder="Enter Assignment 2 Marks">
+        <input type="number" id="assignment3" placeholder="Enter Assignment 3 Marks">
+        <button onclick="calculateInternalMarks()">Show Result</button>
+        <div class="result" id="result"></div>
+    </div>
+    <div class="footer">
+        <p>made by cse</p>
+    </div>
+    <script>
+        function calculateInternalMarks() {
+            var Fat1 = parseFloat(document.getElementById('Fat1').value);
+            var Fat2 = parseFloat(document.getElementById('Fat2').value);
+            var Fat3 = parseFloat(document.getElementById('Fat3').value);
+            var assignment1 = parseFloat(document.getElementById('assignment1').value);
+            var assignment2 = parseFloat(document.getElementById('assignment2').value);
+            var assignment3 = parseFloat(document.getElementById('assignment3').value);
+
+            if (isNaN(Fat1) || isNaN(Fat2) || isNaN(Fat3) || isNaN(assignment1) || isNaN(assignment2) || isNaN(assignment3)) {
+                alert("Please enter valid numbers for all marks.");
+                return;
+            }
+
+            var FatAverage = (Fat1 + Fat2 + Fat3) / 3;
+            var assignmentAverage = (assignment1 + assignment2 + assignment3) / 3;
+            var internalMarks = (0.7 * FatAverage + 0.3 * assignmentAverage) * 0.8;
+            var resultText = "Your internal marks are: " + internalMarks.toFixed(2);
+            
+            document.getElementById('result').textContent = resultText;
+        }
+    </script>
+
+</body>
+</html>
